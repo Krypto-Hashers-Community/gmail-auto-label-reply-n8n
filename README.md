@@ -1,2 +1,26 @@
-# gmail-auto-label-reply-n8n
-This workflow uses n8n + Gemini AI to auto-classify Gmail emails, apply labels, and send smart auto-replies automatically.
+# Gmail Auto Label + Reply using n8n & Gemini AI
+
+This workflow automatically:
+- 📩 Triggers on new Gmail emails
+- 🧠 Classifies them (Personal / Work) using Gemini AI
+- 🏷️ Adds labels accordingly
+- ✉️ Sends a smart, AI-generated auto-reply
+
+## Tools Used
+- [n8n](https://n8n.io)
+- Google Gemini Chat API
+- Gmail API
+
+## Workflow Overview
+![image](https://github.com/user-attachments/assets/9713f170-f440-4323-b871-d3b471c78182)
+
+
+## 📂 Nodes Breakdown
+1. **Gmail Trigger:** Detects new emails
+2. **Text Classifier:** Sends content to Gemini for classification
+3. **AI Agent:** Handles smart decision-making
+4. **Gmail1:** Adds label
+5. **Gmail2:** Sends auto-reply
+
+## Created by
+💜 Zainab Ansari — [YouTube Channel](https://www.youtube.com/@AgentZee-v2l)
