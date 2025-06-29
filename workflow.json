@@ -1,0 +1,318 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -380,
+        -120
+      ],
+      "id": "b4ebbca4-6077-4121-9e28-5f74bc597f13",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "AwdVa465seO14Hbs",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.text }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "customer support ",
+              "description": "An email that is related to helping out a customer. They may be asking questions about our policies or questions about our products or services."
+            },
+            {
+              "category": "other",
+              "description": "any email that is not customer support related "
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -140,
+        -120
+      ],
+      "id": "4973e9c6-06b5-453c-9919-3f11e7a95ab8",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        80
+      ],
+      "id": "fb7fa205-bbd1-4052-ac58-3cc9a0a93b5c",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "xohqa4YiWCTIwY8k",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        300,
+        60
+      ],
+      "id": "5d5b679d-003f-427b-b934-91ce842d1fe5",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "options": {
+          "systemMessage": "# Overview\nYou are a customer support agent for Tech Haven. Your job is to respond to incoming emails with relevant information using your knowledgeBase tool.\n\n## Instructions\n\n- Your output should be friendly and use emojis\n\n- Sign off as Zainab Ansari\n\n## output\n- output only the body  content of the email."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        320,
+        -300
+      ],
+      "id": "5ff291be-2391-468a-a31c-405d35abac74",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        300,
+        -120
+      ],
+      "id": "63a10379-f3d5-4bf4-946d-e5986f44d380",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "xohqa4YiWCTIwY8k",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
+        "labelIds": [
+          "Label_1363100730900255457"
+        ]
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        760,
+        -300
+      ],
+      "id": "d5ef3431-653d-4507-8ab6-4147e2dd5318",
+      "name": "Gmail1",
+      "webhookId": "7c4de733-ccce-4c0d-a8b5-c61f6af3b1e1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "AwdVa465seO14Hbs",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Gmail 1 & Gmail 2\nadd labels & reply to message ",
+        "height": 680,
+        "width": 420,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        680,
+        -440
+      ],
+      "typeVersion": 1,
+      "id": "0a4c86c5-3b11-4e5b-b55d-278ed8878189",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Gmail Trigger",
+        "height": 520,
+        "width": 200,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -420,
+        -280
+      ],
+      "typeVersion": 1,
+      "id": "5f78e530-3269-4607-b290-44608ab36fa0",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Text Classifier",
+        "height": 520,
+        "width": 400,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -200,
+        -280
+      ],
+      "typeVersion": 1,
+      "id": "4e7e7e26-02b5-4735-bc84-a12eefa4dc13",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# AI Agent & (No Operation, do nothing)",
+        "height": 680,
+        "width": 440,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        220,
+        -440
+      ],
+      "typeVersion": 1,
+      "id": "935668cd-b261-4ee7-84e5-32f247bed243",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Gmail Trigger').item.json.id }}",
+        "emailType": "text",
+        "message": "={{ $('AI Agent').item.json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        940,
+        -300
+      ],
+      "id": "1487a467-9f66-46cf-a508-362581911036",
+      "name": "Gmail2",
+      "webhookId": "e17faaa3-ec16-4c10-856a-9f09c20683fe",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "AwdVa465seO14Hbs",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Gmail1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail1": {
+      "main": [
+        [
+          {
+            "node": "Gmail2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0b9ecf2b2f258ef20d00806d0b48ab421c087705a4ffe16a8e24d5b8e53c9792"
+  }
+}
