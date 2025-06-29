@@ -1,5 +1,8 @@
 # Gmail Auto Label + Reply using n8n & Gemini AI
 
+# drive link
+https://drive.google.com/file/d/1sxbdBce5JhiJsEosKJTNwmxf1t1HSjC1/view?usp=sharing
+
 This workflow automatically:
 - 📩 Triggers on new Gmail emails
 - 🧠 Classifies them (Personal / Work) using Gemini AI
